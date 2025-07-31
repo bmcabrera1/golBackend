@@ -5,12 +5,12 @@ import jakarta.validation.constraints.Email;
 
 public class AuthRequest {
 
-    @NotBlank(message = "El email es requerido")
-    @Email(message = "El email no tiene el formato correcto")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please enter a valid email address")
     private String email;
 
 
-    @NotBlank(message = "El password es requerido")
+    @NotBlank(message = "Password is required")
     private String password;
 
 

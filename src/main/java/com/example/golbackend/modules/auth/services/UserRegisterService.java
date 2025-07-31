@@ -24,7 +24,7 @@ public class UserRegisterService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User registrarUsuario(RegisterRequest request) {
+    public void registrarUsuario(RegisterRequest request) {
         Role rolUsuario = roleRepo.findByRoleName("ROLE_USER")
                 .orElseGet(() -> {
                     Role newRole = new Role("ROLE_USER");
@@ -38,6 +38,6 @@ public class UserRegisterService {
         nuevo.setActive(true);
         nuevo.setRoles(Collections.singleton(rolUsuario));
 
-        return usuarioRepo.save(nuevo);
+        usuarioRepo.save(nuevo);
     }
 }
