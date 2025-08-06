@@ -91,6 +91,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
         userRegisterService.registrarUsuario(registerRequest);
-        return ResponseEntity.ok("Uer created successfully!");
+        return ResponseEntity.status(201).body("User created successfully!");
     }
 }

@@ -1,6 +1,7 @@
 package com.example.golbackend.modules.auth.services;
 
 import com.example.golbackend.modules.auth.dto.RegisterRequest;
+import com.example.golbackend.modules.auth.exception.UserAlredyExists;
 import com.example.golbackend.modules.auth.model.Role;
 import com.example.golbackend.modules.auth.model.User;
 import com.example.golbackend.modules.auth.repositories.RoleRepository;
@@ -25,6 +26,12 @@ public class UserRegisterService {
     private PasswordEncoder passwordEncoder;
 
     public void registrarUsuario(RegisterRequest request) {
+
+        if (usuarioRepo.existsByEmail(request.getEmail())) {
+            throw new UserAlredyExists("User with '" + request.getEmail() + "' already exists.");
+        }
+
+
         Role rolUsuario = roleRepo.findByRoleName("ROLE_USER")
                 .orElseGet(() -> {
                     Role newRole = new Role("ROLE_USER");
