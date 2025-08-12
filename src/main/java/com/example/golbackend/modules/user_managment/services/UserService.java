@@ -5,9 +5,9 @@ import com.example.golbackend.modules.auth.repositories.RefreshTokenRepository;
 import com.example.golbackend.modules.auth.repositories.UserRepository;
 import com.example.golbackend.modules.auth.services.RefreshTokenService;
 import com.example.golbackend.modules.user_managment.dto.ChangePasswordRequest;
+import com.example.golbackend.modules.user_managment.dto.GetUserResponse;
 import com.example.golbackend.modules.user_managment.dto.UpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -72,6 +72,14 @@ public class UserService {
 
         userRepository.save(user);
 
+    }
+
+    public GetUserResponse getUserByEmail(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new GetUserResponse(user.getUserName(), user.getUserLastName());
     }
 
 }

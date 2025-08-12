@@ -3,6 +3,7 @@ package com.example.golbackend.modules.user_managment.controller;
 
 import com.example.golbackend.modules.auth.model.User;
 import com.example.golbackend.modules.user_managment.dto.ChangePasswordRequest;
+import com.example.golbackend.modules.user_managment.dto.GetUserResponse;
 import com.example.golbackend.modules.user_managment.dto.MessageResponse;
 import com.example.golbackend.modules.user_managment.dto.UpdateRequest;
 import com.example.golbackend.modules.user_managment.services.UserService;
@@ -53,6 +54,13 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(new MessageResponse(e.getMessage()));
         }
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<GetUserResponse> getUserProfile(@AuthenticationPrincipal User userDetails) {
+        String email = userDetails.getEmail();
+        GetUserResponse userResponse = userService.getUserByEmail(email);
+        return ResponseEntity.ok(userResponse);
     }
 
 
