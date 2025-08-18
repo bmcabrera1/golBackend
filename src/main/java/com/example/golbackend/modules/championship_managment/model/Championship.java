@@ -25,7 +25,6 @@ public class Championship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "championship_id")
-    @JsonIgnore
     private Long championshipId;
 
     @NotBlank(message = "El nombre del campeonato es obligatorio")
@@ -41,14 +40,12 @@ public class Championship {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @NotBlank(message = "El estado es obligatorio")
     @Column(name = "status")
     private String championshipStatus;
 
     @Column(name = "min_players_field")
     private int minPlayersField;
 
-    @Min(value = 1, message = "Debe registrarse al menos 1 jugador")
     @Column(name = "min_players_registered")
     private int minPlayersRegistered;
 

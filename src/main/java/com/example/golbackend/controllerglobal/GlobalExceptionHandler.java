@@ -2,6 +2,7 @@ package com.example.golbackend.controllerglobal;
 
 import com.example.golbackend.modules.auth.dto.ErrorResponse;
 import com.example.golbackend.modules.auth.exception.UserAlredyExists; // renombrar a UserAlreadyExists si quieres
+import com.example.golbackend.modules.championship_managment.exception.ChampionshipNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -106,5 +107,15 @@ public class GlobalExceptionHandler {
                 "Ocurrió un error inesperado en el servidor."
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ChampionshipNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleChampionshipNotFound(ChampionshipNotFoundException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "Not Found",
+                ex.getMessage()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

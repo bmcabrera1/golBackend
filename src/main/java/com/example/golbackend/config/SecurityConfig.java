@@ -1,5 +1,6 @@
 package com.example.golbackend.config;
 
+import com.example.golbackend.modules.auth.security.JwtAuthenticationEntryPoint;
 import com.example.golbackend.modules.auth.security.JwtAuthenticationFilter;
 import com.example.golbackend.modules.auth.security.JwtUtil;
 import com.example.golbackend.modules.auth.security.UserDetailsServiceImpl;
@@ -32,13 +33,23 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter(jwtUtil, usuarioDetailsService);
     }
 
+    private static final String[] SWAGGER_WHITELIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter, JwtAuthenticationEntryPoint entryPoint) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(SWAGGER_WHITELIST).permitAll()
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(entryPoint)
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
