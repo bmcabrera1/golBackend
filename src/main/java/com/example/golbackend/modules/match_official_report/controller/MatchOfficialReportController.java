@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/matches/{matchId}/official-reports")
+@RequestMapping("/api/matches/{matchId}/official-reports")
 public class MatchOfficialReportController {
     @Autowired
     private MatchOfficialReportService reportService;

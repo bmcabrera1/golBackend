@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/match")
 public class MatchController {
 
     @Autowired
     private MatchService matchService;
 
-    @PostMapping("/matchdays/{matchdayId}/matches")
+    @PostMapping("/{matchdayId}/matches")
     public ResponseEntity<?> createMatch(@PathVariable Long matchdayId, @RequestBody MatchDto matchDto) {
         try {
             Match newMatch = matchService.createMatch(matchdayId, matchDto);
@@ -28,13 +28,13 @@ public class MatchController {
         }
     }
 
-    @GetMapping("/matchdays/{matchdayId}/matches")
+    @GetMapping("/{matchdayId}/matches")
     public ResponseEntity<List<Match>> getMatches(@PathVariable Long matchdayId) {
         List<Match> matches = matchService.getMatchesByMatchday(matchdayId);
         return ResponseEntity.ok(matches);
     }
 
-    @PutMapping("/matches/{matchId}")
+    @PutMapping("/{matchId}")
     public ResponseEntity<?> updateMatchResult(@PathVariable Long matchId, @RequestBody UpdateMatchResultDto resultDto) {
         try {
             Match updatedMatch = matchService.updateMatchResult(matchId, resultDto);

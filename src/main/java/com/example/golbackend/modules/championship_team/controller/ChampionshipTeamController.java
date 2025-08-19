@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/championships/{championshipId}/teams")
+@RequestMapping("api/championships/{championshipId}/teams")
 public class ChampionshipTeamController {
 
     @Autowired

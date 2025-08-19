@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/matches/{matchId}/players")
+@RequestMapping("/api/matches/{matchId}/players")
 public class MatchPlayerController {
     @Autowired
     private MatchPlayerService matchPlayerService;

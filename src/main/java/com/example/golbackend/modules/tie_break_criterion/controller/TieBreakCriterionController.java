@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/phases/{phaseId}/tie-break-criteria")
+@RequestMapping("/api/phases/{phaseId}/tie-break-criteria")
 public class TieBreakCriterionController {
     @Autowired
     private TieBreakCriterionService criterionService;

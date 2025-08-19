@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/phases/{phaseId}/teams")
+@RequestMapping("/api/phases/{phaseId}/teams")
 public class PhaseTeamController {
     @Autowired
     private PhaseTeamService phaseTeamService;

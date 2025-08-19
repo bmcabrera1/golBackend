@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/matches/{matchId}/report")
+@RequestMapping("/api/matches/{matchId}/report")
 public class MatchReportController {
 
     @Autowired
     private MatchReportService matchReportService;
 
-    @PutMapping
+    @PostMapping
     public ResponseEntity<?> createOrUpdateReport(@PathVariable Long matchId, @RequestBody MatchReportDto reportDto) {
         try {
             MatchReport report = matchReportService.createOrUpdateReport(matchId, reportDto);

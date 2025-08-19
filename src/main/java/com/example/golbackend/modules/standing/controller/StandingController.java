@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/phases/{phaseId}/standings")
+@RequestMapping("/api/phases/{phaseId}/standings")
 public class StandingController {
 
     @Autowired

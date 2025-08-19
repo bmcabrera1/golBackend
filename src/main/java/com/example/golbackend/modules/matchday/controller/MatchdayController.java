@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/phases/{phaseId}/matchdays")
+@RequestMapping("/api/phases/{phaseId}/matchdays")
 public class MatchdayController {
 
     @Autowired
