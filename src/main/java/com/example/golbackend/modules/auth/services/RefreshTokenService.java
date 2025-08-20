@@ -35,9 +35,10 @@ public class RefreshTokenService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
 
+        // Elimina cualquier token existente
         refreshTokenRepository.deleteByUser(user);
-        refreshTokenRepository.flush();
 
+        // Crea un nuevo token
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(user);
         refreshToken.setExpiryDate(LocalDateTime.now().plusSeconds(refreshTokenDuration));
@@ -46,6 +47,8 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(refreshToken);
     }
 
+
+    @Transactional
     public RefreshToken verifyExpirationDate(RefreshToken refreshToken) {
         if (refreshToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             refreshTokenRepository.delete(refreshToken);
@@ -53,6 +56,7 @@ public class RefreshTokenService {
         }
         return refreshToken;
     }
+
 
     @Transactional
     public int deleteByUser(Long userId) {
