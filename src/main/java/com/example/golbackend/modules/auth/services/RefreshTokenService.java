@@ -26,19 +26,14 @@ public class RefreshTokenService {
         this.userRepository = userRepository;
     }
 
-    public Optional<RefreshToken> findByToken(String token) {
-        return refreshTokenRepository.findByToken(token);
-    }
-
     @Transactional
     public RefreshToken createRefreshToken(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
 
-        // Elimina cualquier token existente
+        // Eliminar token existente antes de crear uno nuevo
         refreshTokenRepository.deleteByUser(user);
 
-        // Crea un nuevo token
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(user);
         refreshToken.setExpiryDate(LocalDateTime.now().plusSeconds(refreshTokenDuration));
@@ -47,21 +42,23 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(refreshToken);
     }
 
-
-    @Transactional
-    public RefreshToken verifyExpirationDate(RefreshToken refreshToken) {
-        if (refreshToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-            refreshTokenRepository.delete(refreshToken);
-            throw new RuntimeException("Token has expired. Please sign in again.");
-        }
-        return refreshToken;
+    public Optional<RefreshToken> findByToken(String token) {
+        return refreshTokenRepository.findByToken(token);
     }
 
+    @Transactional
+    public RefreshToken verifyExpirationDate(RefreshToken token) {
+        if (token.getExpiryDate().isBefore(LocalDateTime.now())) {
+            refreshTokenRepository.delete(token);
+            throw new RuntimeException("Token expired");
+        }
+        return token;
+    }
 
     @Transactional
     public int deleteByUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return refreshTokenRepository.deleteByUser(user);
     }
 }
