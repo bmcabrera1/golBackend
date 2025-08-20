@@ -31,8 +31,8 @@ public class RefreshTokenService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
 
-        // Eliminar token existente antes de crear uno nuevo
         refreshTokenRepository.deleteByUser(user);
+        refreshTokenRepository.flush();
 
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(user);
@@ -41,6 +41,7 @@ public class RefreshTokenService {
 
         return refreshTokenRepository.save(refreshToken);
     }
+
 
     public Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
